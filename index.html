@@ -1,346 +1,372 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MAÑANA a las 19:00h tu negocio cambia para siempre | Focus</title>
-    <meta name="description" content="Dale play. Lo que vas a ver en este vídeo va a cambiar cómo ves tu negocio para siempre. Mañana 19 de mayo a las 19:00h.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>DIRECTO 19 MAYO - Focus IA para Empresas</title>
+  <meta name="description" content="Quedan horas. Entra al directo gratuito donde aprenderás a usar IA para captar clientes en automático.">
+  <meta property="og:title" content="O entras ahora o te lo pierdes para siempre">
+  <meta property="og:description" content="Directo GRATIS · 19 mayo · 19:00h · IA para captar clientes en automático">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    <!-- OG Tags -->
-    <meta property="og:title" content="MAÑANA tu negocio cambia para siempre">
-    <meta property="og:description" content="Dale play a este vídeo. Lo que vas a escuchar no te lo esperas.">
-    <meta property="og:image" content="https://files.manuscdn.com/user_upload_by_module/session_file/310519663288181369/PvTfcOvcdDEnrSDR.jpg">
-    <meta property="og:type" content="website">
-    
-    <!-- Preload video for fast start -->
-    <link rel="preload" as="image" href="https://files.manuscdn.com/user_upload_by_module/session_file/310519663288181369/PvTfcOvcdDEnrSDR.jpg">
-    <link rel="preconnect" href="https://files.manuscdn.com">
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: #070707;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 480px;
-            width: 100%;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-        }
-        
-        /* Urgency badge */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 68, 68, 0.15);
-            border: 1px solid rgba(255, 68, 68, 0.4);
-            color: #FF6666;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 12px;
-            padding: 8px 16px;
-            border-radius: 100px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            animation: pulse-badge 2s infinite;
-        }
-        
-        @keyframes pulse-badge {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-        
-        .badge::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: #FF4444;
-            border-radius: 50%;
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        
-        /* Headline */
-        h1 {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 900;
-            font-size: clamp(22px, 6vw, 32px);
-            line-height: 1.2;
-            color: #fff;
-        }
-        
-        h1 .highlight {
-            color: #0088FF;
-            display: block;
-        }
-        
-        /* Subheadline */
-        .sub {
-            font-size: 15px;
-            color: rgba(255,255,255,0.6);
-            line-height: 1.5;
-            max-width: 360px;
-        }
-        
-        .sub strong {
-            color: #fff;
-        }
-        
-        /* Video container */
-        .video-wrap {
-            width: 100%;
-            max-width: 360px;
-            border-radius: 16px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 0 60px rgba(0, 136, 255, 0.15), 0 20px 40px rgba(0,0,0,0.5);
-            border: 2px solid rgba(0, 136, 255, 0.3);
-        }
-        
-        .video-wrap video {
-            width: 100%;
-            height: auto;
-            display: block;
-            background: #111;
-        }
-        
-        /* Play overlay */
-        .play-overlay {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: rgba(0,0,0,0.4);
-            cursor: pointer;
-            transition: opacity 0.3s;
-        }
-        
-        .play-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .play-btn {
-            width: 72px;
-            height: 72px;
-            background: rgba(0, 136, 255, 0.9);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: pulse-play 2s infinite;
-        }
-        
-        .play-btn svg {
-            width: 28px;
-            height: 28px;
-            fill: #fff;
-            margin-left: 4px;
-        }
-        
-        @keyframes pulse-play {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 136, 255, 0.5); }
-            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(0, 136, 255, 0); }
-        }
-        
-        .play-text {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 13px;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        /* Arrow */
-        .arrow-down {
-            animation: bounce 1.5s infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(6px); }
-        }
-        
-        /* CTA Button */
-        .cta-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            max-width: 380px;
-            padding: 18px 32px;
-            background: #25D366;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 800;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
-            animation: glow-cta 2.5s infinite;
-        }
-        
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
-        }
-        
-        @keyframes glow-cta {
-            0%, 100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4); }
-            50% { box-shadow: 0 4px 35px rgba(37, 211, 102, 0.6); }
-        }
-        
-        .cta-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: #fff;
-        }
-        
-        /* Small text */
-        .small {
-            font-size: 12px;
-            color: rgba(255,255,255,0.35);
-        }
-        
-        .small strong {
-            color: rgba(255,255,255,0.6);
-        }
-        
-        /* Footer urgency */
-        .urgency {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 13px;
-            color: #FFBD22;
-        }
-        
-        .urgency svg {
-            width: 16px;
-            height: 16px;
-            fill: #FFBD22;
-        }
-    </style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #070707;
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      text-align: center;
+    }
+
+    /* Pulsing urgency bar */
+    .urgency-bar {
+      background: linear-gradient(90deg, #FF2222, #FF4444);
+      padding: 10px 16px;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      animation: pulse-bar 2s ease-in-out infinite;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    @keyframes pulse-bar {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; background: linear-gradient(90deg, #CC0000, #FF2222); }
+    }
+
+    /* Logo */
+    .logo {
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+    .logo img {
+      height: 40px;
+    }
+
+    /* Countdown */
+    .countdown-wrapper {
+      margin: 24px 0;
+    }
+    .countdown-label {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: #FF4444;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .countdown-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 68, 68, 0.3);
+      border-radius: 12px;
+      padding: 12px 14px;
+      min-width: 64px;
+    }
+    .countdown-number {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      color: #fff;
+      line-height: 1;
+    }
+    .countdown-unit {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.4);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* Main headline */
+    .headline {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+      font-size: 26px;
+      line-height: 1.15;
+      margin: 28px 0 16px;
+    }
+    .headline .highlight {
+      color: #0088FF;
+    }
+    .headline .warning {
+      color: #FF4444;
+    }
+
+    .subheadline {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+    .subheadline strong {
+      color: #fff;
+    }
+
+    /* Benefits */
+    .benefits {
+      text-align: left;
+      margin: 0 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .benefit {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(0, 136, 255, 0.05);
+      border: 1px solid rgba(0, 136, 255, 0.15);
+      border-radius: 12px;
+    }
+    .benefit-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .benefit-text {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.4;
+    }
+    .benefit-text strong {
+      color: #fff;
+    }
+
+    /* FOMO block */
+    .fomo-block {
+      background: rgba(255, 34, 34, 0.08);
+      border: 1px solid rgba(255, 34, 34, 0.25);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 28px;
+    }
+    .fomo-block p {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      color: #FF6666;
+      line-height: 1.4;
+    }
+    .fomo-block .small {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 8px;
+    }
+
+    /* CTA Button */
+    .cta-wrapper {
+      margin: 0 0 20px;
+    }
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 18px 24px;
+      background: #25D366;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800;
+      font-size: 16px;
+      text-decoration: none;
+      border-radius: 14px;
+      transition: all 0.2s;
+      animation: pulse-cta 2.5s ease-in-out infinite;
+      box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
+    }
+    .cta-btn:hover {
+      background: #20bd5a;
+      transform: scale(1.02);
+    }
+    .cta-btn img {
+      width: 22px;
+      height: 22px;
+    }
+
+    @keyframes pulse-cta {
+      0%, 100% { box-shadow: 0 0 20px rgba(37, 211, 102, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(37, 211, 102, 0.5); }
+    }
+
+    .cta-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.35);
+      margin-top: 10px;
+    }
+
+    /* Footer note */
+    .footer-note {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+      line-height: 1.5;
+    }
+
+    /* Glow effect behind headline */
+    .glow-bg {
+      position: relative;
+    }
+    .glow-bg::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 136, 255, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Urgency badge -->
-        <div class="badge">MAÑANA 19 MAYO · 19:00H</div>
-        
-        <!-- Headline -->
-        <h1>
-            Esto es lo que va a pasar mañana con tu negocio
-            <span class="highlight">si le das play a este vídeo</span>
-        </h1>
-        
-        <!-- Sub -->
-        <p class="sub">
-            No es broma. <strong>2 minutos y 45 segundos</strong> que van a hacer que mañana a las 19:00h estés pegado a la pantalla. Dale play.
-        </p>
-        
-        <!-- Video -->
-        <div class="video-wrap">
-            <video 
-                id="hypeVideo"
-                playsinline 
-                preload="metadata"
-                poster="https://files.manuscdn.com/user_upload_by_module/session_file/310519663288181369/PvTfcOvcdDEnrSDR.jpg"
-            >
-                <source src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663288181369/oRguNHAuwSiBxoRN.mp4" type="video/mp4">
-            </video>
-            <div class="play-overlay" id="playOverlay">
-                <div class="play-btn">
-                    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                </div>
-                <span class="play-text">Dale play y alucina</span>
-            </div>
-        </div>
-        
-        <!-- Arrow -->
-        <div class="arrow-down">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 5v14M5 12l7 7 7-7"/>
-            </svg>
-        </div>
-        
-        <!-- CTA -->
-        <a href="https://bit.ly/Confirmacionfocus" class="cta-btn">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-            CONFIRMA TU PLAZA GRATIS
-        </a>
-        
-        <!-- Small -->
-        <p class="small"><strong>100% gratis</strong> · Sin compromiso · Plazas limitadas</p>
-        
-        <!-- Urgency -->
-        <div class="urgency">
-            <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
-            Quedan pocas horas para el directo
-        </div>
+
+  <!-- Urgency Bar -->
+  <div class="urgency-bar">
+    ⚠️ MAÑANA 19 MAYO · 19:00H · PLAZAS AGOTÁNDOSE
+  </div>
+
+  <div class="container">
+
+    <!-- Logo -->
+    <div class="logo">
+      <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288181369/QwFJuw59BHmTAkJvqHRxUU/focus-logo_fbb2bc66.svg" alt="Focus">
     </div>
-    
-    <script>
-        // Video play on tap
-        const video = document.getElementById('hypeVideo');
-        const overlay = document.getElementById('playOverlay');
-        
-        overlay.addEventListener('click', function() {
-            video.play();
-            overlay.classList.add('hidden');
-        });
-        
-        video.addEventListener('click', function() {
-            if (video.paused) {
-                video.play();
-                overlay.classList.add('hidden');
-            } else {
-                video.pause();
-                overlay.classList.remove('hidden');
-            }
-        });
-        
-        video.addEventListener('ended', function() {
-            overlay.classList.remove('hidden');
-        });
-    </script>
+
+    <!-- Countdown -->
+    <div class="countdown-wrapper">
+      <div class="countdown-label">El directo empieza en:</div>
+      <div class="countdown" id="countdown">
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-unit">Horas</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-unit">Min</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-unit">Seg</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Headline -->
+    <div class="glow-bg">
+      <h1 class="headline">
+        O entras ahora<br>
+        <span class="warning">o te lo pierdes<br>para siempre.</span>
+      </h1>
+    </div>
+
+    <p class="subheadline">
+      Mañana a las 19:00h voy a enseñar EN DIRECTO cómo usar la IA para captar clientes, automatizar ventas y escalar tu negocio. <strong>Sin replay. Sin segunda oportunidad.</strong>
+    </p>
+
+    <!-- Benefits -->
+    <div class="benefits">
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#0088FF" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <div class="benefit-text"><strong>IA aplicada a tu negocio</strong> — Herramientas concretas para implementar desde mañana mismo</div>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#0088FF" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        <div class="benefit-text"><strong>Captación de clientes en automático</strong> — Un sistema que trabaja por ti 24/7 sin contratar a nadie</div>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#0088FF" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div class="benefit-text"><strong>Embudos que cierran solos</strong> — WhatsApp, llamadas y seguimiento automatizado</div>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#0088FF" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        <div class="benefit-text"><strong>Estrategia de anuncios</strong> — Cómo invertir poco y generar leads cualificados de forma predecible</div>
+      </div>
+      <div class="benefit">
+        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="#0088FF" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <div class="benefit-text"><strong>Casos reales en directo</strong> — Negocios como el tuyo que ya lo están haciendo y facturando más</div>
+      </div>
+    </div>
+
+    <!-- FOMO Block -->
+    <div class="fomo-block">
+      <p>Solo 1.000 plazas.<br>No habrá grabación.<br>No habrá segunda edición.</p>
+      <p class="small">Si no entras ahora, mañana verás los resultados de los demás desde fuera.</p>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrapper">
+      <a href="https://chat.whatsapp.com/K9E9qpUdUX43iyz6TyWQfH" class="cta-btn" target="_blank" rel="noopener">
+        <img src="https://d2xsxph8kpxj0f.cloudfront.net/310519663288181369/QwFJuw59BHmTAkJvqHRxUU/whatsapp-icon_e4d4db26.png" alt="">
+        ENTRAR AL GRUPO DEL DIRECTO
+      </a>
+      <p class="cta-sub">100% gratis · Acceso inmediato · Plazas limitadas</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer-note">
+      Focus — IA para Empresas<br>
+      Directo gratuito · 19 mayo 2026 · 19:00h (hora España)
+    </div>
+
+  </div>
+
+  <script>
+    // Countdown to May 19, 2026 at 19:00 CET (UTC+2)
+    const eventDate = new Date('2026-05-19T19:00:00+02:00').getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const diff = eventDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        document.querySelector('.countdown-label').textContent = '¡EL DIRECTO ES AHORA!';
+        document.querySelector('.countdown-label').style.color = '#25D366';
+        return;
+      }
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
 </body>
 </html>
