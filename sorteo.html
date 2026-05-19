@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sorteo Focus - Directo 19 Mayo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;900&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #070707;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+    .title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 40px;
+    }
+    .count {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: #0088FF;
+      margin-bottom: 40px;
+    }
+
+    /* Slot machine effect */
+    .slot-wrapper {
+      height: 100px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 40px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .slot-wrapper::before,
+    .slot-wrapper::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0;
+      height: 30px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .slot-wrapper::before { top: 0; background: linear-gradient(to bottom, #070707, transparent); }
+    .slot-wrapper::after { bottom: 0; background: linear-gradient(to top, #070707, transparent); }
+
+    .slot-names {
+      transition: transform 0.1s linear;
+      width: 100%;
+    }
+    .slot-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    /* Winner display */
+    .winner-section {
+      display: none;
+    }
+    .winner-section.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    .winner-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 900;
+      font-size: 42px;
+      color: #25D366;
+      margin-bottom: 12px;
+      text-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
+    }
+    .winner-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 30px;
+    }
+
+    /* Phone reveal */
+    .phone-section {
+      display: none;
+      margin-top: 20px;
+    }
+    .phone-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    .phone-number {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: #0088FF;
+      background: rgba(0, 136, 255, 0.08);
+      border: 1px solid rgba(0, 136, 255, 0.2);
+      border-radius: 12px;
+      padding: 16px 24px;
+      display: inline-block;
+    }
+
+    /* Buttons */
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 18px 40px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-sorteo {
+      background: #25D366;
+      color: #fff;
+      box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
+      width: 100%;
+      max-width: 320px;
+    }
+    .btn-sorteo:hover { background: #20bd5a; transform: scale(1.02); }
+    .btn-sorteo:active { transform: scale(0.98); }
+
+    .btn-phone {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 13px;
+      padding: 12px 24px;
+      margin-top: 20px;
+    }
+    .btn-phone:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .btn-again {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 14px;
+      padding: 14px 30px;
+      margin-top: 24px;
+    }
+    .btn-again:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* Confetti */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: fall 3s linear forwards;
+      z-index: 100;
+    }
+    @keyframes fall {
+      to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hidden initially */
+    .pre-sorteo { display: block; }
+    .post-sorteo { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- PRE SORTEO -->
+    <div class="pre-sorteo" id="preSorteo">
+      <div class="title">SORTEO EN DIRECTO</div>
+      <div class="subtitle">Consultoría 1-a-1 con Adrián</div>
+      <div class="count" id="participantCount"></div>
+      <div class="slot-wrapper" id="slotWrapper" style="display:none;">
+        <div class="slot-names" id="slotNames"></div>
+      </div>
+      <button class="btn btn-sorteo" id="btnSortear" onclick="startRaffle()">
+        SORTEAR GANADOR
+      </button>
+    </div>
+
+    <!-- POST SORTEO -->
+    <div class="post-sorteo" id="postSorteo">
+      <div class="winner-label">EL GANADOR ES</div>
+      <div class="winner-name" id="winnerName"></div>
+      
+      <button class="btn btn-phone" id="btnPhone" onclick="revealPhone()">
+        Ver número de teléfono
+      </button>
+
+      <div class="phone-section" id="phoneSection">
+        <div class="phone-number" id="winnerPhone"></div>
+      </div>
+
+      <br>
+      <button class="btn btn-again" onclick="resetRaffle()">
+        Sortear otro
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Data embedded
+    const DATA = [{"name":"Jose","whatsapp":"606369971"},{"name":"Neli","whatsapp":"614820714"},{"name":"Liubov","whatsapp":"603099225"},{"name":"Milton","whatsapp":"603143844"},{"name":"Eli","whatsapp":"616085891"},{"name":"Jesus","whatsapp":"34616428954"},{"name":"PILAR","whatsapp":"617462215"},{"name":"Susana","whatsapp":"619294992"},{"name":"Jose carlos ","whatsapp":"618738597"},{"name":"PILAR","whatsapp":"615649024"},{"name":"Gonzalo","whatsapp":"609177741"},{"name":"Martin","whatsapp":"624065771"},{"name":"ALESSANDRYD B","whatsapp":"624748351"},{"name":"Luis gustavo","whatsapp":"604370977"},{"name":"JULIAN Guzman ","whatsapp":"611443679"},{"name":"Daniel ","whatsapp":"636874309"},{"name":"Oscar","whatsapp":"636310431"},{"name":"Adrian gonzalez","whatsapp":"34638267861"},{"name":"Francisco Conrado ","whatsapp":"636221682"},{"name":"Brenda","whatsapp":"34603321095"},{"name":"alvaro","whatsapp":"625130059"},{"name":"José vasco","whatsapp":"604122912"},{"name":"Pepa","whatsapp":"615904772"},{"name":"PAULA","whatsapp":"+34637978673"},{"name":"PATRICIA","whatsapp":"639071138"},{"name":"Viri","whatsapp":"636535559"},{"name":"Loreto","whatsapp":"629043415"},{"name":"José Luis","whatsapp":"+34625660756"},{"name":"Javier Lopez Botella","whatsapp":"626331783"},{"name":"Jesus Lacambra ","whatsapp":"+34652700799"},{"name":"Nerea","whatsapp":"654207649"},{"name":"muñoz","whatsapp":"660826964"},{"name":"Ciprian Corneliu","whatsapp":"654299468"},{"name":"Silvia","whatsapp":"654404700"},{"name":"Juan Luis","whatsapp":"660948934"},{"name":"jorge","whatsapp":"654561291"},{"name":"Mercedes","whatsapp":"627880397"},{"name":"Nicolás ","whatsapp":"+34630810750"},{"name":"Rubén","whatsapp":"655755605"},{"name":"Maria francisca","whatsapp":"644085441"},{"name":"Marina Menéndez ","whatsapp":"630937073"},{"name":"Maria de los Angeles","whatsapp":"630783367"},{"name":"Cristian","whatsapp":"644296052"},{"name":"Alberto Güemes ","whatsapp":"+34 630982493"},{"name":"Stefano","whatsapp":"680998233"},{"name":"javieravilesmanuel@gmail.com","whatsapp":"643971889"},{"name":"JAIME","whatsapp":"656899416"},{"name":"Steeven","whatsapp":"602817045"},{"name":"fina","whatsapp":"663965389"},{"name":"harry","whatsapp":"663685145"},{"name":"Silvana Marisel","whatsapp":"632866540"},{"name":"María Rocío","whatsapp":"658461848"},{"name":"Ana Maritza  Lopez Palacios ","whatsapp":"659737255"},{"name":"Silvia ","whatsapp":"686115400"},{"name":"Alejandro","whatsapp":"670440295"},{"name":"Marta","whatsapp":"679830739"},{"name":"Juan Manuel Delgado ","whatsapp":"667580693"},{"name":"José Francisco","whatsapp":"661559750"},{"name":"Ileana Veciunca ","whatsapp":"662208255"},{"name":"Natalia ","whatsapp":"625788219"},{"name":"Juan Carlos ","whatsapp":"679227711"},{"name":"Victor Garcia","whatsapp":"+34627536026"},{"name":"Benito ","whatsapp":"655126767"},{"name":"Luis","whatsapp":"650445540"},{"name":"Bouchra","whatsapp":"642455751"},{"name":"Matilde Garcia","whatsapp":"664049090"},{"name":"Mayerling","whatsapp":"622497189"},{"name":"Jose","whatsapp":"687895142"},{"name":"Roberto ","whatsapp":"689189145"},{"name":"Cornel ","whatsapp":"689516219"},{"name":"Martín ","whatsapp":"+34689718881"},{"name":"Xavi ","whatsapp":"690107070"},{"name":"Jose Antonio  Ramos","whatsapp":"677437569"},{"name":"Antonio ","whatsapp":"674661198"},{"name":"Raúl ","whatsapp":"+34689721132"},{"name":"daniel","whatsapp":"643329805"},{"name":"Carlos Javier alba quintero ","whatsapp":"642077862"},{"name":"Adrian","whatsapp":"618098471"},{"name":"José Luis","whatsapp":"606751645"},{"name":"Ferran Gutiérrez","whatsapp":"+34667520795"},{"name":"Saad","whatsapp":"+32641618694"},{"name":"Sergio","whatsapp":"608237346"},{"name":"Carmen","whatsapp":"+34691288702"},{"name":"Alex","whatsapp":"649326537"},{"name":"Marian","whatsapp":"625121005"},{"name":"Mila Blanco ","whatsapp":"659955599"},{"name":"Laura","whatsapp":"660670194"},{"name":"Teresa Romero ","whatsapp":"627604453"},{"name":"Sonia","whatsapp":"34618965600"},{"name":"Yan ","whatsapp":"656274082"},{"name":"Erika","whatsapp":"611679128"},{"name":"Javier ","whatsapp":"628235839"},{"name":"Javier","whatsapp":"686832416"},{"name":"Hugo","whatsapp":"625705736"},{"name":"Marwan","whatsapp":"655519668"},{"name":"Jorge","whatsapp":"+34617496677"},{"name":"Sara","whatsapp":"675611039"},{"name":"José María ","whatsapp":"662952844"},{"name":"Laura ","whatsapp":"643002215"},{"name":"Eugenia Mejia","whatsapp":"643381622"},{"name":"Juanjo","whatsapp":"663806575"},{"name":"Gonzalo ","whatsapp":"628256535"},{"name":"Jose","whatsapp":"666449834"},{"name":"Rafa","whatsapp":"679846169"},{"name":"Sandra","whatsapp":"605989220"},{"name":"Victor Escobar","whatsapp":"664337353"},{"name":"David ","whatsapp":"616243063"},{"name":"Cristian","whatsapp":"642919518"},{"name":"Jose Maria","whatsapp":"+34691516401"},{"name":"Luis","whatsapp":"603684919"},{"name":"Victor","whatsapp":"+34652449831"},{"name":"Mario","whatsapp":"+34647713990"},{"name":"Sergio","whatsapp":"661703838"},{"name":"Maria Rosa","whatsapp":"600592264"},{"name":"Carlos ","whatsapp":"646623027"},{"name":"Carmen","whatsapp":"+34697326712"},{"name":"Diana Moraru","whatsapp":"+34665193161"},{"name":"Laura","whatsapp":"609772703"},{"name":"Ludy","whatsapp":"670329300"},{"name":"David","whatsapp":"675190753"},{"name":"Juani","whatsapp":"645983730"},{"name":"Manu","whatsapp":"663496699"},{"name":"Cruz Eiras Isorna ","whatsapp":"670632512"},{"name":"Manuel","whatsapp":"727748093"},{"name":"Sahar","whatsapp":"674884669"},{"name":"Mahamadou","whatsapp":"631304528"},{"name":"Andrea ","whatsapp":"691541955"},{"name":"Noelia","whatsapp":"635998544"},{"name":"Alberto","whatsapp":"623030246"},{"name":"Marta","whatsapp":"645170915"},{"name":"Soraya","whatsapp":"671888961"},{"name":"eloy","whatsapp":"695278616"},{"name":"Alberto","whatsapp":"614332482"},{"name":"Jose Luis","whatsapp":"652980917"},{"name":"Javier","whatsapp":"699001150"},{"name":"Marina ","whatsapp":"655553163"},{"name":"David","whatsapp":"652995370"},{"name":"Monica ","whatsapp":"677566349"},{"name":"Bartolome","whatsapp":"679991671"},{"name":"Edu","whatsapp":"+34727797797"},{"name":"Ana","whatsapp":"615759838"},{"name":"Carmen","whatsapp":"+34669122780"},{"name":"Sandra","whatsapp":"674049850"},{"name":"Juan Carlos","whatsapp":"625431995"},{"name":"Joy","whatsapp":"622613663"},{"name":"Néstor Chacón ","whatsapp":"612456593"},{"name":"Dany","whatsapp":"642605588"},{"name":"Jose Francisco Rubio Climent ","whatsapp":"663759661"},{"name":"Sandra","whatsapp":"686846499"},{"name":"Jorge Villota ","whatsapp":"613901012"},{"name":"David","whatsapp":"661773894"},{"name":"Joel","whatsapp":"622084075"},{"name":"Rosa ","whatsapp":"669385918"},{"name":"Gema","whatsapp":"636442994"},{"name":"Jorge","whatsapp":"651836548"},{"name":"Mario","whatsapp":"+34609368211"},{"name":"alvaro","whatsapp":"661455319"},{"name":"Daniel","whatsapp":"671582224"},{"name":"Vicente ","whatsapp":"633442163"},{"name":"Andrea","whatsapp":"+34615725824"},{"name":"Carlos","whatsapp":"+34659274838"},{"name":"Esther","whatsapp":"628040817"},{"name":"Andrea","whatsapp":"633850226"},{"name":"Borja Fernández","whatsapp":"+34657024799"},{"name":"Carlos ","whatsapp":"666666666"},{"name":"jordi","whatsapp":"654098058"},{"name":"Manel","whatsapp":"+34 623 95 70 53"},{"name":"Antonio ","whatsapp":"607946609"},{"name":"Glory","whatsapp":"657604304"},{"name":"Héctor Novella Martinez","whatsapp":"605922032"},{"name":"Luis Enrique","whatsapp":"602115034"},{"name":"Emilio ","whatsapp":"634782461"},{"name":"Alba Turel ","whatsapp":"637720084"},{"name":"Ángel","whatsapp":"611180647"},{"name":"Toni","whatsapp":"685296590"},{"name":"Ib","whatsapp":"666632140"},{"name":"Santos","whatsapp":"600233188"},{"name":"Ana María ","whatsapp":"660853173"},{"name":"Carla","whatsapp":"636266178"},{"name":"Ismael","whatsapp":"+34622579039"},{"name":"Alex","whatsapp":"620724413"},{"name":"Aurora Viu","whatsapp":"606464852"},{"name":"araceli","whatsapp":"647855030"},{"name":"Oldzhay","whatsapp":"644473331"},{"name":"Paco","whatsapp":"607330103"},{"name":"Jorge Real","whatsapp":"+34722585026"},{"name":"Miriam","whatsapp":"636429815"},{"name":"Pedro","whatsapp":"684217118"},{"name":"Mariano Martínez ","whatsapp":"+34691088298"},{"name":"Laila martin","whatsapp":"669445109"},{"name":"Juan","whatsapp":"+34627080087"},{"name":"David","whatsapp":"630868627"},{"name":"Rafael ","whatsapp":"+34601248223"},{"name":"Bea","whatsapp":"666727901"},{"name":"David","whatsapp":"+34627420908"},{"name":"Juanfra","whatsapp":"614571441"},{"name":"Ariel Edgardo","whatsapp":"677118938"},{"name":"Belén ","whatsapp":"665677347"},{"name":"Concepcion","whatsapp":"625585650"},{"name":"Alexandra Castillo ","whatsapp":"617239509"},{"name":"Luis","whatsapp":"687132812"},{"name":"Angelo ","whatsapp":"+34644191806"},{"name":"José Antonio Castro sanz","whatsapp":"669714971"},{"name":"Viviam","whatsapp":"685841203"},{"name":"Lázaro","whatsapp":"625278240"},{"name":"Juan Carlos ","whatsapp":"649490773"},{"name":"Rubén","whatsapp":"669222126"},{"name":"EMI ","whatsapp":"647164957"},{"name":"Gabriela ","whatsapp":"636302290"},{"name":"Antonio","whatsapp":"689696133"},{"name":"Bernat","whatsapp":"630252996"},{"name":"Bea","whatsapp":"617361413"},{"name":"Diego","whatsapp":"635423233"},{"name":"Laura","whatsapp":"722461188"},{"name":"Pedro","whatsapp":"680266257"},{"name":"Morony","whatsapp":"684203487"},{"name":"Ofir ","whatsapp":"656238911"},{"name":"Jose","whatsapp":"692308439"},{"name":"Susana ","whatsapp":"652753358"},{"name":"Oscar","whatsapp":"620674843"},{"name":"Jaime","whatsapp":"646726260"},{"name":"Marta","whatsapp":"668503322"},{"name":"Emilio Climent","whatsapp":"689592709"},{"name":"Antonio ","whatsapp":"617191943"},{"name":"Carlos ","whatsapp":"644965106"},{"name":"Marcos","whatsapp":"621432878"},{"name":"FELIPE","whatsapp":"615430554"},{"name":"Ana","whatsapp":"+34655084235"},{"name":"Elisa","whatsapp":"630718865"},{"name":"Jusn","whatsapp":"640744878"},{"name":"Jose ","whatsapp":"655990941"},{"name":"Curro","whatsapp":"600700739"},{"name":"EGONIA ","whatsapp":"+34635334329"},{"name":"Aimar","whatsapp":"695948065"},{"name":"Miguel","whatsapp":"651433477"},{"name":"luis","whatsapp":"606324608"},{"name":"Arnau","whatsapp":"681869437"},{"name":"Jhon freddy","whatsapp":"617293831"},{"name":"Manuel","whatsapp":"620867507"},{"name":"SERGI","whatsapp":"646989709"},{"name":"Asma","whatsapp":"679126866"},{"name":"Víctor ","whatsapp":"611162919"},{"name":"JOSE ESTEBAN","whatsapp":"673360777"},{"name":"Toni","whatsapp":"609343896"},{"name":"Karina","whatsapp":"625880860"},{"name":"Alexandra ","whatsapp":"625922453"},{"name":"Daniel","whatsapp":"631588131"},{"name":"Alexis cruz ","whatsapp":"654838050"},{"name":"Imma","whatsapp":"676052350"},{"name":"cesar augusto","whatsapp":"664028932"},{"name":"Mari","whatsapp":"615271358"},{"name":"khalidpiornal@gmail.com","whatsapp":"643721301"},{"name":"Imane ","whatsapp":"624224606"},{"name":"Miguel","whatsapp":"656604465"},{"name":"Alberto","whatsapp":"+34666143134"},{"name":"Santiago Garrigós Gómez ","whatsapp":"629741548"},{"name":"Santi","whatsapp":"680930270"},{"name":"Fiorella","whatsapp":"623256427"},{"name":"Fabian silva ","whatsapp":"677974282"},{"name":"FCO-AGUSTIN VIZCAINO IBAÑEZ","whatsapp":"687854985"},{"name":"Dalila","whatsapp":"657563319"},{"name":"Linda ","whatsapp":"692721789"},{"name":"Na u","whatsapp":"620265347"},{"name":"Alice","whatsapp":"618097029"},{"name":"Álvaro","whatsapp":"660222779"},{"name":"María Noel","whatsapp":"643827825"},{"name":"Jordi","whatsapp":"622871183"},{"name":"Marisol","whatsapp":"619218649"},{"name":"David","whatsapp":"663003151"},{"name":"jose luis","whatsapp":"+34684368156"},{"name":"Manuel ","whatsapp":"+34699661351"},{"name":"David ","whatsapp":"681966701"},{"name":"Eduardo Herrador ","whatsapp":"685524497"},{"name":"Luie","whatsapp":"663231696"},{"name":"Cristina","whatsapp":"691078936"},{"name":"Alex","whatsapp":"+34624325697"},{"name":"M Dolores ","whatsapp":"684649157"},{"name":"Marisa","whatsapp":"621377988"},{"name":"Alba ","whatsapp":"658914202"},{"name":"Miguel ","whatsapp":"605854429"},{"name":"Antonio ","whatsapp":"660469690"},{"name":"Emilia","whatsapp":"638898165"},{"name":"Weibing ","whatsapp":"622138887"},{"name":"Jose ","whatsapp":"660664081"},{"name":"Alejandro","whatsapp":"687871914"},{"name":"Albert","whatsapp":"645437752"},{"name":"Ricardo ","whatsapp":"622377855"},{"name":"Victor manuel","whatsapp":"658675675"},{"name":"Leo Álvarez ","whatsapp":"627082823"},{"name":"Oscar Martin","whatsapp":"655956797"},{"name":"Gema","whatsapp":"34635102214"},{"name":"Samuel Barrios","whatsapp":"+34663129297"},{"name":"Manuel García Casado ","whatsapp":"652884397"},{"name":"Juan","whatsapp":"607809028"},{"name":"Steissy Lara ","whatsapp":"604111089"},{"name":"Luis","whatsapp":"636708392"},{"name":"Gonzalo ","whatsapp":"606803616"},{"name":"Mercedes","whatsapp":"667609744"},{"name":"Elisabet","whatsapp":"690159369"},{"name":"Ariadna","whatsapp":"+34692982299"},{"name":"Jokim Egaña","whatsapp":"722162894"},{"name":"ESMERALDA","whatsapp":"633413147"},{"name":"Raul Jose","whatsapp":"613642167"},{"name":"jaco","whatsapp":"645537030"},{"name":"Jose Reyes Garciq","whatsapp":"696898536"},{"name":"REBECA","whatsapp":"690885665"},{"name":"David","whatsapp":"640771230"},{"name":"Kader","whatsapp":"642531853"},{"name":"Agustí Font","whatsapp":"640180024"},{"name":"Angely Marcano ","whatsapp":"614703311"},{"name":"Alberto","whatsapp":"622905804"},{"name":"Oscar","whatsapp":"695904317"},{"name":"Kevin","whatsapp":"641589487"},{"name":"Lisset","whatsapp":"617609655"},{"name":"nelson","whatsapp":"658587190"},{"name":"Angel","whatsapp":"675529366"},{"name":"Juan","whatsapp":"611222800"},{"name":"Sigrid","whatsapp":"677095738"},{"name":"Sebastián Robles","whatsapp":"00346159175554"},{"name":"Guillermo ","whatsapp":"658053473"},{"name":"Juanjo Giménez ","whatsapp":"+34669761466"},{"name":"Pedro","whatsapp":"639966010"},{"name":"Dani","whatsapp":"607119069"},{"name":"Antonio luna","whatsapp":"34 627403648"},{"name":"Raquel","whatsapp":"646469515"},{"name":"Alberto","whatsapp":"631990693"},{"name":"Gloria","whatsapp":"657910417"},{"name":"Michael Eduardo","whatsapp":"660750390"},{"name":"Juan Luis","whatsapp":"648960930"},{"name":"David","whatsapp":"+34621245878"},{"name":"Lola","whatsapp":"+340670773714"},{"name":"Daniel","whatsapp":"677342156"},{"name":"Maria Jose","whatsapp":"+34 627410139"},{"name":"Kircho ","whatsapp":"642751740"},{"name":"Manuel garcia neyra ","whatsapp":"625458443"},{"name":"Mpaz","whatsapp":"670879234"},{"name":"Rachid ","whatsapp":"653310164"},{"name":"Victoria","whatsapp":"693547984"},{"name":"fernando","whatsapp":"686474342"},{"name":"Antonio","whatsapp":"660802159"},{"name":"Eduardo","whatsapp":"678450271"},{"name":"Pepe ","whatsapp":"665860957"},{"name":"Benjamin","whatsapp":"632600354"},{"name":"Ernesto ","whatsapp":"621053612"},{"name":"gloria","whatsapp":"622509167"},{"name":"Ignacio","whatsapp":"+34655663702"},{"name":"Gerard","whatsapp":"691668800"},{"name":"ANNA","whatsapp":"616641182"},{"name":"Cristóbal Cereto Pelaez ","whatsapp":"+34672439277"},{"name":"Leticia","whatsapp":"606845731"},{"name":"ILAN","whatsapp":"+34686849939"},{"name":"Manuel","whatsapp":"674107213"},{"name":"Edu","whatsapp":"661918928"},{"name":"Alejandro","whatsapp":"+34608810170"},{"name":"Diego López ","whatsapp":"640081716"},{"name":"Julia","whatsapp":"649686235"},{"name":"Vanessa","whatsapp":"664511037"},{"name":"Gustavo","whatsapp":"+4915122926165"},{"name":"Cristian","whatsapp":"689023730"},{"name":"Susan","whatsapp":"661312918"},{"name":"Luna","whatsapp":"698927939"},{"name":"Marius","whatsapp":"608773617"},{"name":"Miguel ","whatsapp":"722444191"},{"name":"Jordi","whatsapp":"676559291"},{"name":"Marcos ","whatsapp":"688755389"},{"name":"Benjamin ","whatsapp":"56976848649"},{"name":"Carlota","whatsapp":"+34645817748"},{"name":"Monica Nuñez Ferrer","whatsapp":"639726465"},{"name":"Victor","whatsapp":"679686825"},{"name":"Marvic","whatsapp":"619816240"},{"name":"alicia","whatsapp":"629163692"},{"name":"Alfredo ","whatsapp":"+524776846585"},{"name":"Jose Luis García ","whatsapp":"649362644"},{"name":"Gema","whatsapp":"696967777"},{"name":"David","whatsapp":"653114949"},{"name":"José Manuel ","whatsapp":"611244777"},{"name":"Victor","whatsapp":"660038000"},{"name":"Mauricio ","whatsapp":"624591313"},{"name":"Lucía","whatsapp":"+34 671004579"},{"name":"Fernando vacas ","whatsapp":"695362670"},{"name":"Jenifer ","whatsapp":"695403281"},{"name":"LUIS MARIA","whatsapp":"696981301"},{"name":"Samary","whatsapp":"601267648"},{"name":"Lucia ","whatsapp":"722501064"},{"name":"Jesús ","whatsapp":"+34651085074"},{"name":"Sonia","whatsapp":"657239568"},{"name":"Rachiid","whatsapp":"643311705"},{"name":"Pablo Ramirez ","whatsapp":"627461098"},{"name":"Gerardo","whatsapp":"688680173"},{"name":"Iván ","whatsapp":"744635681"},{"name":"Adriana","whatsapp":"722146728"},{"name":"Vane","whatsapp":"+34640197903"},{"name":"Joan","whatsapp":"648652260"},{"name":"Genard","whatsapp":"+34679246857"},{"name":"Abdel","whatsapp":"632155761"},{"name":"Ariel","whatsapp":"644088474"},{"name":"Eda Aurora","whatsapp":"634314331"},{"name":"Roberto","whatsapp":"+34650624536"},{"name":"Lorena ","whatsapp":"722490859"},{"name":"Alexandra","whatsapp":"648724151"},{"name":"Iván","whatsapp":"660750418"},{"name":"Ramon Gas","whatsapp":"629942868"},{"name":"David","whatsapp":"+34677244004"},{"name":"Francisco","whatsapp":"601545773"},{"name":"Pablo ","whatsapp":"650923261"},{"name":"jaime","whatsapp":"622402435"},{"name":"Antonio","whatsapp":"+34626786207"},{"name":"Rafa","whatsapp":"+34633212446"},{"name":"Joan Gibert","whatsapp":"687664849"},{"name":"ALAN","whatsapp":"659962348"},{"name":"Maria Teresa","whatsapp":"625147617"},{"name":"Rocio","whatsapp":"685753623"},{"name":"Gemma","whatsapp":"676439581"},{"name":"Juan Carlos","whatsapp":"+34 0674321394"},{"name":"Brigitte","whatsapp":"680928949"},{"name":"Antonio","whatsapp":"625549388"},{"name":"Héctor ","whatsapp":"604334142"},{"name":"Manuel","whatsapp":"602498013"},{"name":"carlos","whatsapp":"669997250"},{"name":"Alfonso","whatsapp":"645668080"},{"name":"Fernando Larrea","whatsapp":"624229321"},{"name":"Antonio Jose","whatsapp":"649483509"},{"name":"Luis","whatsapp":"685554082"},{"name":"Luis Alberto Marin","whatsapp":"+41797158637"},{"name":"Juan Antonio","whatsapp":"666970425"},{"name":"Ana","whatsapp":"+34690187728"},{"name":"Ricardo","whatsapp":"696989081"},{"name":"María del Carmen Jiménez Nieto ","whatsapp":"689255637"},{"name":"Francisco José López Moreno ","whatsapp":"666983483"},{"name":"Matheus","whatsapp":"604247262"},{"name":"Cesar ","whatsapp":"669587964"},{"name":"Ins","whatsapp":"+56928682295"},{"name":"JOSE LUIS","whatsapp":"+34640243386"},{"name":"Fabiola","whatsapp":"626569971"},{"name":"Grace","whatsapp":"659175142"},{"name":"Gabriel","whatsapp":"614337018"},{"name":"Noel","whatsapp":"661508088"},{"name":"Fernando","whatsapp":"690910910"},{"name":"Nuria ","whatsapp":"629203871"},{"name":"Luis Germán David","whatsapp":"680709199"},{"name":"Alberto","whatsapp":"+34 643360730"},{"name":"Fernanda","whatsapp":"654244533"},{"name":"Ángel ","whatsapp":"647739187"},{"name":"Arturo","whatsapp":"+34670445692"},{"name":"Ulisses","whatsapp":"+376335583"},{"name":"Carlos ","whatsapp":"+34654191253"},{"name":"Carlos","whatsapp":"672124421"},{"name":"Bernat","whatsapp":"616801868"},{"name":"antonia","whatsapp":"0650397126"},{"name":"MAYTE","whatsapp":"670978145"},{"name":"Maria del Carmen","whatsapp":"691164537"},{"name":"Dinar Rodríguez ","whatsapp":"604978794"},{"name":"Jorge","whatsapp":"34627991316"},{"name":"Nicolas lopez gonzalez","whatsapp":"640913515"},{"name":"Sergio ","whatsapp":"610808238"},{"name":"Eva","whatsapp":"607247979"},{"name":"Oscar","whatsapp":"676426317"},{"name":"Miquel","whatsapp":"639254377"},{"name":"Alfonso Francisco ","whatsapp":"655584239"},{"name":"Ismael","whatsapp":"677814249"},{"name":"Jose","whatsapp":"633976318"},{"name":"David","whatsapp":"+34617413909"},{"name":"Maria","whatsapp":"609087149"},{"name":"Erik","whatsapp":"+34622606022"},{"name":"Enrique","whatsapp":"674110987"},{"name":"Juancarlos","whatsapp":"609453012"},{"name":"Alfonso","whatsapp":"644501646"},{"name":"Violeta","whatsapp":"655141966"},{"name":"Alba Fernandez","whatsapp":"674292439"},{"name":"Paul","whatsapp":"689463178"},{"name":"Eduardo","whatsapp":"698606669"},{"name":"Pilar","whatsapp":"+34655042039"},{"name":"Lyudmyla ","whatsapp":"618388979"},{"name":"Miguel Ángel ","whatsapp":"620441169"},{"name":"Antonio","whatsapp":"636479416"},{"name":"Nuria","whatsapp":"+34 607529407"},{"name":"Joaquín gambero pacheco ","whatsapp":"667407740"},{"name":"Antonio","whatsapp":"602558741"},{"name":"Eduardo Rojas ","whatsapp":"635151252"},{"name":"Miguel ","whatsapp":"696881083"},{"name":"Kenneth","whatsapp":"630362845"},{"name":"Ion","whatsapp":"0768187810"},{"name":"Xavi Morros","whatsapp":"693722236"},{"name":"Guillermo Truyols Bujosa","whatsapp":"34657985691"},{"name":"Manuel","whatsapp":"653297385"},{"name":"Vicky","whatsapp":"618876671"},{"name":"Lesmy","whatsapp":"8294198479"},{"name":"Marco","whatsapp":"+19545997352"},{"name":"hugo","whatsapp":"7551081838"},{"name":"Raudel","whatsapp":"617741643"},{"name":"Santiago Cavada","whatsapp":"611766060"},{"name":"ADRIAN","whatsapp":"+34660127329"},{"name":"andrea","whatsapp":"619586333"},{"name":"Angel","whatsapp":"636979906"},{"name":"Javier ","whatsapp":"+34687910205"},{"name":"Luis Enrique","whatsapp":"722706777"},{"name":"Charo","whatsapp":"625320560"},{"name":"Juan José Ruiz Gómez ","whatsapp":"649007288"},{"name":"Francesc","whatsapp":"699446439"},{"name":"Aurelio","whatsapp":"692686790"},{"name":"Giuseppe","whatsapp":"+34605566690"},{"name":"Alejandro","whatsapp":"678196713"},{"name":"Clínica Dental Dr Pérez Guerra ","whatsapp":"664275695"},{"name":"Houda","whatsapp":"640207802"},{"name":"jose","whatsapp":"711781950"},{"name":"Kilian","whatsapp":"621202402"},{"name":"mayte","whatsapp":"633508223"},{"name":"Daryna","whatsapp":"644558223"},{"name":"Latiatnan1@gmai.co","whatsapp":"697318926"},{"name":"Magi","whatsapp":"636957231"},{"name":"Pol","whatsapp":"627159621"},{"name":"Iñaki Fernández","whatsapp":"688729651"},{"name":"Rubén ","whatsapp":"652188795"},{"name":"Sony","whatsapp":"659964982"},{"name":"Su","whatsapp":"+34 656408813"},{"name":"LAURA TORMO ","whatsapp":"686664866"},{"name":"Gabriel ","whatsapp":"667072485"},{"name":"Mercedes","whatsapp":"+34629421588"},{"name":"Ignacio Redondo","whatsapp":"722302625"},{"name":"Gaspar Torres","whatsapp":"697136464"},{"name":"Junito","whatsapp":"657864512"},{"name":"Pilar","whatsapp":"+34620959586"},{"name":"Luis Piquer Trujillo","whatsapp":"609758014"},{"name":"Roger","whatsapp":"652291266"},{"name":"Adrian","whatsapp":"634904642"},{"name":"Jose Andreo","whatsapp":"681146377"},{"name":"Rabah","whatsapp":"631745617"},{"name":"Francisco José","whatsapp":"622258631"},{"name":"Teo","whatsapp":"663707814"},{"name":"Manuel","whatsapp":"+34647703123"},{"name":"Maria","whatsapp":"600500199"},{"name":"Rodrigo","whatsapp":"678895804"},{"name":"Rosy","whatsapp":"+34684197818"},{"name":"Juan antonio","whatsapp":"673130575"},{"name":"Francisco ","whatsapp":"+34610725673"},{"name":"Arnau","whatsapp":"691944872"},{"name":"LILIA CECILIA Gonzalez ","whatsapp":"631357032"},{"name":"Alfonso","whatsapp":"623109565"},{"name":"David ","whatsapp":"605909630"},{"name":"Horacio Sánchez Rábida ","whatsapp":"+34 616942512"},{"name":"Guillermo","whatsapp":"628834641"},{"name":"Amparo Sanchez","whatsapp":"660385151"},{"name":"Jorge","whatsapp":"685485348"},{"name":"Berta","whatsapp":"+34644626133"},{"name":"Alexander Sabillon Lara ","whatsapp":"695959031"},{"name":"Francisco Villarroel chavez ","whatsapp":"604353909"},{"name":"Aarón","whatsapp":"699940841"},{"name":"Fran Luque","whatsapp":"+34607250730"},{"name":"josep","whatsapp":"+34625121224"},{"name":"Claudio","whatsapp":"+51998025707"},{"name":"Melissa","whatsapp":"675954174"},{"name":"Sandra González ","whatsapp":"+34645483193"},{"name":"Marta","whatsapp":"615143710"},{"name":"JuanMaria","whatsapp":"648807887"},{"name":"Juan Carlos","whatsapp":"652580370"},{"name":"German","whatsapp":"+34661693428"},{"name":"Arturo","whatsapp":"+34640766489"},{"name":"Fatima","whatsapp":"609664000"},{"name":"Sergio Alberto","whatsapp":"5578998498"},{"name":"Isabel","whatsapp":"34669102292"},{"name":"Adrián","whatsapp":"+34699829010"},{"name":"Nieves","whatsapp":"647000416"},{"name":"Brenda ","whatsapp":"634184264"},{"name":"Juan Jose","whatsapp":"615858276"},{"name":"Juan Jose","whatsapp":"658925334"},{"name":"Miguel","whatsapp":"637512681"},{"name":"Juan","whatsapp":"+34634319250"},{"name":"Manuel","whatsapp":"669403038"},{"name":"Rafael","whatsapp":"639132490"},{"name":"Jalal","whatsapp":"666908120"},{"name":"Brian ","whatsapp":"678012638"},{"name":"Joan Carles y","whatsapp":"629367036"},{"name":"josep","whatsapp":"688775817"},{"name":"Noemi","whatsapp":"651509936"},{"name":"Bruno","whatsapp":"623111148"},{"name":"Pedro Angel","whatsapp":"0782445767"},{"name":"Judith","whatsapp":"625212985"},{"name":"antoni","whatsapp":"399013"},{"name":"Miranda ","whatsapp":"639023116"},{"name":"Macarena","whatsapp":"+34633656199"},{"name":"SA","whatsapp":"923423I42"},{"name":"Mercedes","whatsapp":"+34630533877"},{"name":"Alice","whatsapp":"661233497"},{"name":"Julia Valdes","whatsapp":"3053457724"},{"name":"Hector Arenas ","whatsapp":"658915063"},{"name":"Juan Carlos David ","whatsapp":"+584143011355"},{"name":"Maria","whatsapp":"638256004"},{"name":"Roberto ","whatsapp":"633756218"},{"name":"JOSE CARLOS","whatsapp":"605909857"},{"name":"María.C","whatsapp":"670978536"},{"name":"Ricardo","whatsapp":"626577826"},{"name":"Manely","whatsapp":"+31681792051"},{"name":"José Ramón Plumed","whatsapp":"606694962"},{"name":"Pablo","whatsapp":"651919050"},{"name":"Gabriel","whatsapp":"614442381"},{"name":"Juan luis","whatsapp":"661623853"},{"name":"Jorge","whatsapp":"642264014"},{"name":"Adolfo Ramos","whatsapp":"605142500"},{"name":"Juan","whatsapp":"613419980"},{"name":"Pablo","whatsapp":"695822150"},{"name":"Camila","whatsapp":"638203726"},{"name":"Carlos ","whatsapp":"677480593"},{"name":"Patricio ","whatsapp":"643583360"},{"name":"Elena ","whatsapp":"615618388"},{"name":"Andres Becerra","whatsapp":"+34604453525"},{"name":"Lina Guerra ","whatsapp":"+34603179276"},{"name":"Lara","whatsapp":"698383988"},{"name":"Cylena Paola","whatsapp":"613381814"},{"name":"Insunza","whatsapp":"+529841432970"},{"name":"María José Sarmiento Barbosa","whatsapp":"3209672601"},{"name":"Mabel","whatsapp":"622052427"},{"name":"Jose","whatsapp":"+34664284444"},{"name":"Yily de Los santos ","whatsapp":"8294696102"},{"name":"Jose Antonio","whatsapp":"633427473"},{"name":"Simona","whatsapp":"639408463"},{"name":"Ginés ","whatsapp":"643440324"},{"name":"Pelayo","whatsapp":"614257887"},{"name":"Lorena","whatsapp":"660306033"},{"name":"Fabien","whatsapp":"652434581"},{"name":"Jesús ","whatsapp":"615956120"},{"name":"Eric","whatsapp":"621251883"},{"name":"Josep","whatsapp":"636131284"},{"name":"Yosay Ramírez ","whatsapp":"664796209"},{"name":"Javi Rivera ","whatsapp":"658671964"},{"name":"Luis ","whatsapp":"642419225"},{"name":"José Antonio","whatsapp":"607526860"},{"name":"Lola","whatsapp":"638258908"},{"name":"Andrés holgado ","whatsapp":"670627429"},{"name":"Adriana","whatsapp":"+34661672203"},{"name":"Jhon Rojas ","whatsapp":"+56978796227"},{"name":"Marcos","whatsapp":"699025284"},{"name":"Estanis Sarquella","whatsapp":"+34676990505"},{"name":"Sileymane","whatsapp":"641876166"},{"name":"Antonio Jesus","whatsapp":"661679609"},{"name":"Jose Luis","whatsapp":"667629233"},{"name":"Pablo","whatsapp":"+34606272455"},{"name":"Dani saborido","whatsapp":"655709509"},{"name":"Javi","whatsapp":"621321882"},{"name":"Cristina","whatsapp":"661654696"},{"name":"PEDRO","whatsapp":"646427050"},{"name":"Alma Torres ","whatsapp":"4434233507"},{"name":"Felix","whatsapp":"696967261"},{"name":"Richard","whatsapp":"04145883571"},{"name":"Ińigo","whatsapp":"663517357"},{"name":"Ana Amor Merino","whatsapp":"685758130"},{"name":"David ","whatsapp":"645997536"},{"name":"Josep","whatsapp":"677500106"},{"name":"Naiara","whatsapp":"34684408230"},{"name":"Pere","whatsapp":"620141433"},{"name":"Verónica ","whatsapp":"693380873"},{"name":"Jose Manuel","whatsapp":"670265501"},{"name":"Yolanda","whatsapp":"667772081"},{"name":"Christian ","whatsapp":"671661605"},{"name":"Nick","whatsapp":"605962749"},{"name":"Julen","whatsapp":"34675192466"},{"name":"Sulín","whatsapp":"+34622684346"},{"name":"Juan ","whatsapp":"661415363"},{"name":"Mamen","whatsapp":"606997040"},{"name":"Alejandra ","whatsapp":"627723883"},{"name":"Yasbely ","whatsapp":"622798550"},{"name":"Francisco","whatsapp":"5493446476847"},{"name":"Carla ","whatsapp":"608152022"},{"name":"Carolina","whatsapp":"640356978"},{"name":"Jesús","whatsapp":"667750483"},{"name":"Esther","whatsapp":"659228116"},{"name":"Toni","whatsapp":"636637753"},{"name":"Clara de Usera ","whatsapp":"661191639"},{"name":"Maria Alexandra","whatsapp":"661874064"},{"name":"Ivan","whatsapp":"627965753"},{"name":"Roberto ","whatsapp":"+34629062444"},{"name":"Elvira Marin","whatsapp":"657250433"},{"name":"Miryam","whatsapp":"641613962"},{"name":"formin99","whatsapp":"630900784"},{"name":"Dumitru","whatsapp":"661399081"},{"name":"Miguel Ángel ","whatsapp":"+34 603747310"},{"name":"MIRI","whatsapp":"672470637"},{"name":"Rubén ","whatsapp":"+34679480253"},{"name":"Cristian","whatsapp":"663614813"},{"name":"Luis ","whatsapp":"685356456"},{"name":"Silvia","whatsapp":"685401092"},{"name":"Marcelo ","whatsapp":"631351300"},{"name":"Jose ","whatsapp":"666408666"},{"name":"Mauricio ","whatsapp":"0986512852"},{"name":"Carolina","whatsapp":"647415242"},{"name":"Ely","whatsapp":"+33 7 56 84 33 12"},{"name":"Sol","whatsapp":"639688608"},{"name":"Antonio","whatsapp":"652657755"},{"name":"San a","whatsapp":"669894718"},{"name":"Monica Chediak","whatsapp":"+34625399652"},{"name":"Iris","whatsapp":"686742983"},{"name":"Daniel ","whatsapp":"+5354009032"},{"name":"Esperanza","whatsapp":"628343326"},{"name":"Jose Leonardo","whatsapp":"609246122"},{"name":"Lena","whatsapp":"657475422"},{"name":"José Alberto","whatsapp":"647615388"},{"name":"‘Mario","whatsapp":"647501880"},{"name":"Íñigo","whatsapp":"650923529"},{"name":"Mohamed ","whatsapp":"677244988"},{"name":"Pilar","whatsapp":"696383023"},{"name":"Mariángeles ","whatsapp":"638053182"},{"name":"Ruben","whatsapp":"691198993"},{"name":"Alexandra Barbosa ","whatsapp":"3132291182"},{"name":"Carlos","whatsapp":"600014888"},{"name":"Patricia ","whatsapp":"606897990"},{"name":"Juan Carlos Piacentile","whatsapp":"+34677857449"},{"name":"Angel Ruiz","whatsapp":"691376001"},{"name":"Armando","whatsapp":"13232516675"},{"name":"Alberto Medina ","whatsapp":"5531031046"},{"name":"Beatriz","whatsapp":"34649809384"},{"name":"Julián ","whatsapp":"659630403"},{"name":"Daniel ","whatsapp":"+34617304010"},{"name":"Estrella","whatsapp":"652667536"},{"name":"Denis","whatsapp":"657027770"},{"name":"José ","whatsapp":"646789070"},{"name":"XAIAREFORMAS ","whatsapp":"696358275"},{"name":"FELIX","whatsapp":"622846202"},{"name":"Daniela","whatsapp":"625390734"},{"name":"Carol VIÑUELAS ","whatsapp":"606081989"},{"name":"Aaron Reina","whatsapp":"664807235"},{"name":"GUADALUPE","whatsapp":"646144440"},{"name":"Dasiel","whatsapp":"678535222"},{"name":"IVÁN","whatsapp":"658372543"},{"name":"Sonia","whatsapp":"628022422"},{"name":"Paqui  Rodriguez ","whatsapp":"+34685164183"},{"name":"Tania","whatsapp":"655251898"},{"name":"Albert","whatsapp":"656194979"},{"name":"Antoni","whatsapp":"637528608"},{"name":"Sol","whatsapp":"679849016"},{"name":"Dani","whatsapp":"640838382"},{"name":"Juan José","whatsapp":"646509914"},{"name":"Marta ","whatsapp":"611269128"},{"name":"Marta","whatsapp":"667760588"},{"name":"Alfonso ","whatsapp":"+34686950691"},{"name":"Olivia","whatsapp":"689414889"},{"name":"Sandra ","whatsapp":"+34677641057"},{"name":"Sonia Moncayo de Krumke","whatsapp":"604444360"},{"name":"Paloma","whatsapp":"657563486"},{"name":"MARC","whatsapp":"+34619632464"},{"name":"Giovanna","whatsapp":"+34673630655"},{"name":"CECILIA","whatsapp":"685802423"},{"name":"Héctor MD","whatsapp":"(+34) 648 22 71 95 "},{"name":"Oihana","whatsapp":"634235679"},{"name":"Luis Apodaca","whatsapp":"+34619248104"},{"name":"Moni","whatsapp":"670446688"},{"name":"Nicolas","whatsapp":"643369584"},{"name":"Joaan","whatsapp":"638270873"},{"name":"Montse","whatsapp":"649738526"},{"name":"Samuel","whatsapp":"633936401"},{"name":"Selina","whatsapp":"+34635464262"},{"name":"jose","whatsapp":"+34678399300"},{"name":"Alex","whatsapp":"653317178"},{"name":"Rutty","whatsapp":"641690193"},{"name":"juanjo","whatsapp":"676107228"},{"name":"Cris","whatsapp":"699093426"},{"name":"Gema","whatsapp":"628127645"},{"name":"Marta","whatsapp":"677429209"},{"name":"Laureano Patricio Gonzalez","whatsapp":"674961081"},{"name":"Alvaro ","whatsapp":"660180575"},{"name":"Valeria","whatsapp":"629403683"},{"name":"Lara","whatsapp":"689671992"},{"name":"Karina","whatsapp":"643291642"},{"name":"Juan","whatsapp":"648807887"},{"name":"Elena","whatsapp":"615575879"},{"name":"Sergio Juan Pastor Oliver","whatsapp":"677130051"},{"name":"Guillermo ","whatsapp":"1124996875"},{"name":"Tomás","whatsapp":"+34640809421"},{"name":"Leo","whatsapp":"622752152"},{"name":"Andres","whatsapp":"+34686387459"},{"name":"Neus","whatsapp":"632240556"},{"name":"Josselin Pérez ","whatsapp":"603250894"},{"name":"Alejandro","whatsapp":"629459313"},{"name":"Juan Miguel ","whatsapp":"695457224"},{"name":"Anyida yicela","whatsapp":"631193890"},{"name":"Jesús ","whatsapp":"641420825"},{"name":"Sira","whatsapp":"662130485"},{"name":"Jose luis","whatsapp":"+56972158956"},{"name":"Wilmen","whatsapp":"648921418"},{"name":"Gabriela","whatsapp":"674152449"},{"name":"Marcelo","whatsapp":"3434667009"},{"name":"Juan Carlos ","whatsapp":"645233992"},{"name":"Jordi ","whatsapp":"697196667"},{"name":"Martha","whatsapp":"620165911"},{"name":"Jose","whatsapp":"608509469"},{"name":"javier","whatsapp":"670910870"},{"name":"Silvia ","whatsapp":"653889517"},{"name":"Pablo","whatsapp":"620486550"},{"name":"Abilio","whatsapp":"687066963"},{"name":"Victor","whatsapp":"657793445"},{"name":"Jose","whatsapp":"77963937"},{"name":"Simona","whatsapp":"601396427"},{"name":"Saray","whatsapp":"+34600000124"},{"name":"Daniel","whatsapp":"+34659342428"},{"name":"Amilcar","whatsapp":"7867246209"},{"name":"Olga","whatsapp":"650588316"},{"name":"Jonathan","whatsapp":"691190203"},{"name":"Juan ","whatsapp":"622032946"},{"name":"Joan","whatsapp":"657968878"},{"name":"Mercedes","whatsapp":"6780703062"},{"name":"Francisco Liberex Vital","whatsapp":"680415127"},{"name":"javier","whatsapp":"687417040"},{"name":"Alex","whatsapp":"622152847"},{"name":"Halid","whatsapp":"314171849"}];
+
+    document.getElementById('participantCount').textContent = DATA.length + ' participantes';
+
+    let winner = null;
+
+    function startRaffle() {
+      const btn = document.getElementById('btnSortear');
+      btn.disabled = true;
+      btn.textContent = 'SORTEANDO...';
+      btn.style.opacity = '0.6';
+
+      const slotWrapper = document.getElementById('slotWrapper');
+      const slotNames = document.getElementById('slotNames');
+      slotWrapper.style.display = 'flex';
+
+      // Animate through random names
+      let iterations = 0;
+      const maxIterations = 30;
+      let speed = 50;
+
+      function animate() {
+        const randomIdx = Math.floor(Math.random() * DATA.length);
+        slotNames.innerHTML = '<div class="slot-name">' + DATA[randomIdx].name + '</div>';
+        iterations++;
+
+        if (iterations < maxIterations) {
+          speed += 15;
+          setTimeout(animate, speed);
+        } else {
+          // Pick winner
+          winner = DATA[Math.floor(Math.random() * DATA.length)];
+          slotNames.innerHTML = '<div class="slot-name">' + winner.name + '</div>';
+          
+          setTimeout(() => {
+            document.getElementById('preSorteo').style.display = 'none';
+            document.getElementById('postSorteo').style.display = 'block';
+            document.getElementById('winnerName').textContent = winner.name;
+            document.getElementById('phoneSection').classList.remove('active');
+            document.getElementById('btnPhone').style.display = 'inline-block';
+            launchConfetti();
+          }, 800);
+        }
+      }
+
+      animate();
+    }
+
+    function revealPhone() {
+      if (!winner) return;
+      document.getElementById('phoneSection').classList.add('active');
+      document.getElementById('winnerPhone').textContent = winner.whatsapp;
+      document.getElementById('btnPhone').style.display = 'none';
+    }
+
+    function resetRaffle() {
+      document.getElementById('preSorteo').style.display = 'block';
+      document.getElementById('postSorteo').style.display = 'none';
+      const btn = document.getElementById('btnSortear');
+      btn.disabled = false;
+      btn.textContent = 'SORTEAR GANADOR';
+      btn.style.opacity = '1';
+      document.getElementById('slotWrapper').style.display = 'none';
+      winner = null;
+    }
+
+    function launchConfetti() {
+      const colors = ['#25D366', '#0088FF', '#FFBD22', '#FF4444', '#fff'];
+      for (let i = 0; i < 60; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        el.style.left = Math.random() * 100 + 'vw';
+        el.style.background = colors[Math.floor(Math.random() * colors.length)];
+        el.style.animationDelay = Math.random() * 0.5 + 's';
+        el.style.animationDuration = (2 + Math.random() * 2) + 's';
+        el.style.width = (6 + Math.random() * 8) + 'px';
+        el.style.height = (6 + Math.random() * 8) + 'px';
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 4000);
+      }
+    }
+  </script>
+</body>
+</html>
